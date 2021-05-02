@@ -65,7 +65,7 @@ def decrypting(message):# turn it to bytes
         return decrypted[2:len(decrypted)-1]
     except Exception as e:
         print("Invalid Key - Unsuccessfully decrypted")
-        print(key)
+        
         
    
         
@@ -76,7 +76,7 @@ while True:
         print(f"Key for word '{message}' is {encrypting(message)}")
 
         
-    if choice == "decrypt" choice == "de":
+    if choice == "decrypt" or choice == "de":
         encrypted_key = input("Enter the encrypted key must in '....': ")
 
         print(decrypting(encrypted_key))
