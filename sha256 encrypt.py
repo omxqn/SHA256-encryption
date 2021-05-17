@@ -17,7 +17,11 @@ if path.isfile("key.key"): # check if the key is exist
     
 
 else:
+    new_key()
     
+    
+def new_key():
+    global key
     password_provided = input("Enter your masterkey password: ")  # This is input in the form of a string
     
     password = password_provided.encode()  # Convert to type bytes
