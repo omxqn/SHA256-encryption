@@ -6,25 +6,8 @@ from os import path
 from os import urandom
 from cryptography.fernet import Fernet
 import os
+import time
 key = b''
-
-
-def check_key():
-    global key
-    if path.isfile("key.key"): # check if the key is exist
-
-        file = open('key.key', 'rb')  # Open the file as wb to read bytes
-        key = file.read()  # The key will be type bytes
-        file.close()
-        return True
-    else:
-        return False
-
-if check_key():
-    print("Your key has been successfuly imported \n\n")  
-else:
-    new_password()
-
 
 def new_password():
     global key
@@ -47,6 +30,19 @@ def new_password():
     file.close()
 
     print("Key has been saved",key)
+
+
+def check_key():
+    global key
+    if path.isfile("key.key"): # check if the key is exist
+
+        file = open('key.key', 'rb')  # Open the file as wb to read bytes
+        key = file.read()  # The key will be type bytes
+        file.close()
+        return True
+    else:
+        return False
+
 
 
     
@@ -77,7 +73,12 @@ def decrypting(message):# turn it to bytes
         print("Invalid Key - Unsuccessfully decrypted")
         print(key)
         
-   
+
+if check_key():
+    print("Your key has been successfuly imported \n\n")  
+else:
+    new_password()
+
         
 while True:
     if check_key():
@@ -109,6 +110,8 @@ while True:
                     if path.isfile("key.key"):
                       os.remove("key.key")
                       print("Done \n")
+                      time.sleep(1)
+
                     else:
                       print("The file does not exist")
                     break
