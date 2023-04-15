@@ -5,6 +5,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from os import path
 from os import urandom
 from cryptography.fernet import Fernet
+from random import SystemRandom
 import os
 import time
 key = b''
@@ -23,19 +24,22 @@ def new_password():
     password_provided = input("Enter your masterkey password: ")  # This is input in the form of a string
     
     password = password_provided.encode()  # Convert to type bytes
-    salt = urandom(16)  # CHANGE THIS - recommend using a key from os.urandom(16), must be of type bytes
+    cryptogen = SystemRandom()
+    salt = cryptogen.randbytes(16)  # Generate a random salt
+
     
     kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=100000,
-        backend=default_backend()
-    )
+    algorithm=hashes.SHA256(),
+    length=64,  # Increase the length to 64 bytes
+    salt=salt,
+    iterations=100000,
+    backend=default_backend())
+
     key = base64.urlsafe_b64encode(kdf.derive(password))  # Can only use kdf once
 
-    file = open('key.key', 'wb')  # Open the file as wb to write bytes
-    file.write(key)  # The key is type bytes still
+    with open('key.key', 'wb') as file:
+    file.write(key)
+
     file.close()
 
     print("Key has been saved",key)
